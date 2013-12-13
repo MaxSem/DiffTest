@@ -1,15 +1,45 @@
 <?php
 
 if ( function_exists( 'wikidiff2_inline_diff' ) ) {
-	//die( "wikidiff2 not found, nothing to test\n" );
+	die( "wikidiff2 not found, nothing to test\n" );
 }
 ini_set( 'user_agent', 'Hi, Domas!' );
 // Bail out early in case of any problems
 error_reporting( E_ALL | E_STRICT );
 set_error_handler( function( $errno , $errstr ) {
-	echo $errstr;
+	echo htmlspecialchars( $errstr );
 	die ( 1 );
 } );
+
+echo <<<HTML
+<html>
+<title>Diff changes</title>
+<style>
+	ins,
+	del {
+		padding-left: 0;
+		color: black;
+		&::before {
+			content: ""
+		}
+	}
+
+	span {
+		margin-right: 2px;
+	}
+
+	ins {
+		background-color: #75C877;
+	}
+
+	del {
+		background-color: #E07076;
+		text-decoration: none;
+	}
+</style>
+<body>
+HTML;
+
 
 require 'Api.php';
 require 'Change.php';
@@ -34,6 +64,8 @@ $count = count( $changes );
 echo "<h1>Found $count changes</h1>\n";
 
 $count = 0;
+$numProcessed = 0;
+$totalTime = 0;
 foreach ( $changes as $change ) {
 	$id = sprintf( "%04d", $count );
 	$page = htmlspecialchars( $change->page );
@@ -44,6 +76,8 @@ foreach ( $changes as $change ) {
 	$time = microtime( true );
 	$diff = wikidiff2_inline_diff( $change->prev, $change->next, 2 );
 	$time = microtime( true ) - $time;
+	$totalTime += $time;
+	$numProcessed++;
 	echo "Diffed in {$time}s<br>\n";
 	$url = htmlspecialchars( "$indexUrl?diff={$change->nextId}&oldid={$change->prevId}" );
 	echo "<a href='$url'>$url</a>";
@@ -52,3 +86,13 @@ foreach ( $changes as $change ) {
 
 	$count++;
 }
+
+$avg = $numProcessed ? $totalTime / $numProcessed : 0;
+
+echo <<<HTML
+<table>
+<tr><td>Total processed</td><td>$numProcessed</td></tr>
+<tr><td>Average diff time</td><td>$avg</td></tr>
+</table>
+</html>
+HTML;
