@@ -1,6 +1,6 @@
 <?php
 
-if ( function_exists( 'wikidiff2_inline_diff' ) ) {
+if ( !function_exists( 'wikidiff2_inline_diff' ) ) {
 	die( "wikidiff2 not found, nothing to test\n" );
 }
 ini_set( 'user_agent', 'Hi, Domas!' );
