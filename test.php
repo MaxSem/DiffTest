@@ -15,27 +15,33 @@ echo <<<HTML
 <html>
 <title>Diff changes</title>
 <style>
-	ins,
-	del {
-		padding-left: 0;
-		color: black;
-		&::before {
-			content: ""
-		}
-	}
+body {
+	font-family: sans-serif;
+}
 
-	span {
-		margin-right: 2px;
-	}
+table,
+td {
+	border:1px solid #000
+}
 
-	ins {
-		background-color: #75C877;
-	}
+ins,
+del {
+	padding-left: 0;
+	color: black;
+	text-decoration: none;
+}
 
-	del {
-		background-color: #E07076;
-		text-decoration: none;
-	}
+span {
+	margin-right: 2px;
+}
+
+ins {
+	background-color: #75C877;
+}
+
+del {
+	background-color: #E07076;
+}
 </style>
 <body>
 HTML;
