@@ -1,7 +1,7 @@
 <?php
 
 if ( !function_exists( 'wikidiff2_inline_diff' ) ) {
-	die( "wikidiff2 not found, nothing to test\n" );
+	//die( "wikidiff2 not found, nothing to test\n" );
 }
 ini_set( 'user_agent', 'Hi, Domas!' );
 // Bail out early in case of any problems
@@ -49,6 +49,9 @@ HTML;
 
 require 'Api.php';
 require 'Change.php';
+require 'Differ.php';
+
+$differ = new TableDiffer;
 
 $site = "http://en.wikipedia.org/w";
 $apiUrl = "$site/api.php";
@@ -80,7 +83,7 @@ foreach ( $changes as $change ) {
 		echo "<b>Not all content loaded, skipping</b><br>\n";
 	}
 	$time = microtime( true );
-	$diff = wikidiff2_inline_diff( $change->prev, $change->next, 2 );
+	$diff = $differ->diff( $change->prev, $change->next );
 	$time = microtime( true ) - $time;
 	$totalTime += $time;
 	$numProcessed++;
