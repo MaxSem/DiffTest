@@ -1,7 +1,7 @@
 <?php
 
 if ( !function_exists( 'wikidiff2_inline_diff' ) ) {
-	//die( "wikidiff2 not found, nothing to test\n" );
+	die( "wikidiff2 not found, nothing to test\n" );
 }
 ini_set( 'user_agent', 'Hi, Domas!' );
 // Bail out early in case of any problems
@@ -51,7 +51,7 @@ require 'Api.php';
 require 'Change.php';
 require 'Differ.php';
 
-$differ = new TableDiffer;
+$differ = new BothDiffer;
 
 $site = "http://en.wikipedia.org/w";
 $apiUrl = "$site/api.php";
