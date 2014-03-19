@@ -1,4 +1,11 @@
 <?php
+/**
+ * wikidiff2 PHP extension test suite. Loads a lot of real changes
+ * from Wikipedia and generates diffs of it.
+ *
+ * License: WTFPL
+ */
+
 
 if ( !function_exists( 'wikidiff2_inline_diff' ) ) {
 	die( "wikidiff2 not found, nothing to test\n" );
